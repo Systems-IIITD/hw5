@@ -2,15 +2,10 @@
 
 make > /dev/null
 
-install=$(dpkg-query -W -f='${Status}' linux-tools-common 2>/dev/null | grep -c "ok installed")
-if [ "$install" == "0" ]; then
-	apt-get install linux-tools-common
-fi
-
-install=$(dpkg-query -W -f='${Status}' linux-tools-`uname -r` 2>/dev/null | grep -c "ok installed")
-
-if [ "$install" == "0" ]; then
-	apt-get install linux-tools-`uname -r`
+pacman -Qi perf 2>/dev/null
+if [ $? -ne 0 ]
+then
+	pacman -S perf
 fi
 
 echo "" > stats.txt
